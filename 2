@@ -1,0 +1,89 @@
+abstract class Employee {
+    protected String name;
+    protected double salary;
+
+    public Employee(String name, double salary) {
+        this.name = name;
+        this.salary = salary;
+    }
+
+    public abstract void work();
+    public abstract void introduce();
+}
+
+interface Reportable {
+    void generateReport();
+}
+
+interface Trainable {
+    void attendTraining();
+}
+
+class Developer extends Employee implements Trainable {
+    private String programmingLanguage; // Бағдарламалау тілі
+
+    public Developer(String name, double salary, String programmingLanguage) {
+        super(name, salary);
+        this.programmingLanguage = programmingLanguage;
+    }
+
+    @Override
+    public void work() {
+        System.out.println(name + " " + programmingLanguage + " тілінде код жазады.");
+    }
+
+    @Override
+    public void introduce() {
+        System.out.println("Мен бағдарламашы " + name + ", жалақым " + salary + "₸.");
+    }
+
+    @Override
+    public void attendTraining() {
+        System.out.println(name + " " + programmingLanguage + " бойынша тренингке қатысады.");
+    }
+}
+
+class Manager extends Employee implements Reportable {
+    private int teamSize;
+
+    public Manager(String name, double salary, int teamSize) {
+        super(name, salary);
+        this.teamSize = teamSize;
+    }
+
+    @Override
+    public void work() {
+        System.out.println(name + " командасын басқарады, командада " + teamSize + " адам бар.");
+    }
+
+    @Override
+    public void introduce() {
+        System.out.println("Мен менеджер " + name + ", жалақым " + salary + "₸.");
+    }
+
+    @Override
+    public void generateReport() {
+        System.out.println(name + " команданың жұмысы бойынша есеп жасайды.");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Employee dev = new Developer("Аружан", 500000, "Java");
+        Employee mgr = new Manager("Еркежан", 750000, 5);
+
+        dev.introduce();
+        dev.work();
+        if (dev instanceof Trainable) {
+            ((Trainable) dev).attendTraining();
+        }
+
+        System.out.println();
+
+        mgr.introduce();
+        mgr.work();
+        if (mgr instanceof Reportable) {
+            ((Reportable) mgr).generateReport();
+        }
+    }
+}
